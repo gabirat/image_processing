@@ -14,4 +14,4 @@ typedef struct {
     int16_t* data;
 } pgm;
 
-int load_pgm(char* path, pgm image);
+int load_pgm(char* path, pgm* image);
