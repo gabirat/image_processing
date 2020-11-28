@@ -1,5 +1,5 @@
 #include "pgm.h"
 
-int main(int argc, char const *argv[]) {
+int main(void) {
     return 0;
 }
