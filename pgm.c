@@ -83,17 +83,41 @@ int load_pgm(char *path, pgm **image) {
 
   char *file_content = malloc(file_size * sizeof(*file_content) + sizeof(*file_content));
   /*                                                file size + \0                  */
-  if (file_content == NULL)
-    return 2;
+  if (file_content == NULL) return 2;
   while (fread(file_content, sizeof(*file_content), file_size, f) != file_size);
   file_content[file_size] = '\0';
   remove_comments(file_content, strlen(file_content));
   *image = malloc(sizeof(**image));
-  parse_string_as_pgm(file_content, *image);
+  err_no = parse_string_as_pgm(file_content, *image);
+  if (err_no != 0) return err_no;
+  strcpy((*image)->path, path);
   cleanup(1, file_content);
   fclose(f);
   return 0;
 }
+
+int save_pgm(char* path, pgm** image) {
+  pgm* img = (*image);
+  int ret;
+  if (image == NULL) return 8;
+  FILE *f = fopen(path, "w");
+  if (f == NULL) return 9;
+
+  ret = fprintf(f, "%s\n", img->magic);
+  ret = fprintf(f, "%ld %ld\n", img->w, img->h);
+  ret = fprintf(f, "%d\n", img->depth);
+  if (ret < 0) return 10;
+  
+  for (size_t y = 0; y < img->h; y++) {
+    for (size_t x = 0; x < img->w; x++) {
+      if (fprintf(f, "%d ", img->data[img->w * y + x]) < 0) return 10;
+    }
+    fprintf(f, "%c", '\n');
+  }
+  fclose(f);
+  return 0;
+}
+
 void free_pgm(pgm** image) {
   free((*image)->data);
   free((*image));

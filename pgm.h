@@ -5,14 +5,14 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <stdarg.h>
-#define PGM_NAME_LENGTH 255
+#define PGM_PATH_LENGTH 512
 
 typedef struct {
   char magic[3];
-  char name[PGM_NAME_LENGTH];
+  char path[PGM_PATH_LENGTH];
   int16_t depth;
-  int32_t w;
-  int32_t h;
+  size_t w;
+  size_t h;
   size_t data_size;
   int16_t* data;
 } pgm;
@@ -27,4 +27,7 @@ int load_pgm(char* path, pgm** image);
 /* load_pgm checks only if magic is correct and assumes rest of the 
    file follows the specification */
 
+int save_pgm(char* path, pgm** image);
+
 void free_pgm(pgm** image);
+/* frees image data and image structure*/
