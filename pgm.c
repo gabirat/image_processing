@@ -94,3 +94,7 @@ int load_pgm(char *path, pgm **image) {
   fclose(f);
   return 0;
 }
+void free_pgm(pgm** image) {
+  free((*image)->data);
+  free((*image));
+}

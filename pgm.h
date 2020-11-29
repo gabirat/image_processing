@@ -26,3 +26,5 @@ typedef enum {
 int load_pgm(char* path, pgm** image);
 /* load_pgm checks only if magic is correct and assumes rest of the 
    file follows the specification */
+
+void free_pgm(pgm** image);
