@@ -1,10 +1,14 @@
+#ifndef PGM_H
+#define PGM_H
+
+#include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-#include <stdlib.h>
 #include <ctype.h>
-#include <stdarg.h>
+#include "helpers.h"
+
 #define PGM_PATH_LENGTH 512
 
 typedef struct {
@@ -28,6 +32,9 @@ int load_pgm(char* path, pgm** image);
    file follows the specification */
 
 int save_pgm(char* path, pgm** image);
+/* saves image to sepcified path*/
 
 void free_pgm(pgm** image);
 /* frees image data and image structure*/
+
+#endif /* PGM_H */
