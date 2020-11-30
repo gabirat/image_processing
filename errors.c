@@ -7,7 +7,10 @@ const char* SIGNALS_ERROR_CODES[] = {
   "Can't open image file",
   "File version not implemented",
   "Wrong file signature",
-  "Unknown error after file signature check"
+  "Unknown error after file signature check",
+  "Can't save - image is NULL",
+  "Can't open file for writing",
+  "Error writing file"
 };
 
 void print_error_message(int error_code) {
