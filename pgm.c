@@ -50,17 +50,6 @@ int parse_string_as_pgm(char *content, pgm *image) {
   return 0;
 }
 
-void cleanup(size_t, ...);
-
-void cleanup(size_t no_args, ...) {
-  va_list ap;
-  va_start(ap, no_args);
-  for(size_t i = 0; i < no_args; i++) {
-    free(va_arg(ap, void*));
-  }
-  va_end(ap);
-}
-
 int load_pgm(char *path, pgm **image) {
   int err_no = 0;
   FILE *f = fopen(path, "r");
@@ -91,7 +80,7 @@ int load_pgm(char *path, pgm **image) {
   err_no = parse_string_as_pgm(file_content, *image);
   if (err_no != 0) return err_no;
   strcpy((*image)->path, path);
-  cleanup(1, file_content);
+  free(file_content);
   fclose(f);
   return 0;
 }
@@ -118,7 +107,7 @@ int save_pgm(char* path, pgm** image) {
   return 0;
 }
 
-void free_pgm(pgm** image) {
-  free((*image)->data);
-  free((*image));
+void free_pgm(pgm* image) {
+  free(image->data);
+  free(image);
 }
