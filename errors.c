@@ -10,8 +10,17 @@ const char* SIGNALS_ERROR_CODES[] = {
   "Unknown error after file signature check",
   "Can't save - image is NULL",
   "Can't open file for writing",
-  "Error writing file"
+  "Error writing file",
+  "Can't allocate memory to load a string",
+  "Can't allocate memory to initialize context"
 };
+
+error_status init_error_status() {
+  error_status err;
+  err.err_no = 0;
+  err.err_t = NO_ERROR;
+  return err;
+}
 
 void print_error_message(int error_code) {
   fprintf(stderr, "Error code: %d\nMessage: %s\n", error_code, SIGNALS_ERROR_CODES[error_code - 1]);
