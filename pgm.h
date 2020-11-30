@@ -34,7 +34,7 @@ int load_pgm(char* path, pgm** image);
 int save_pgm(char* path, pgm** image);
 /* saves image to sepcified path*/
 
-void free_pgm(pgm** image);
+void free_pgm(pgm* image);
 /* frees image data and image structure*/
 
 #endif /* PGM_H */
