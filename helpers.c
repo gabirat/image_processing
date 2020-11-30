@@ -1,5 +1,5 @@
-#include "pgm.h"
 #include "helpers.h"
+
 #define BUFFER_SIZE 512
 
 int get_input_int() {
@@ -13,13 +13,17 @@ int get_input_int() {
   return num;
 }
 
-int get_input_string(char** buffer) {
+error_status get_input_string(char** buffer) {
+  error_status err = init_error_status();
   *buffer = malloc(BUFFER_SIZE * sizeof(*buffer));
-  if (*buffer == NULL) return 11;
+  if (*buffer == NULL) {
+    err.err_no = 11;
+    err.err_t = ERROR_CRITICAL;
+  }
   int ret;
     do {
     while(fgets(*buffer, BUFFER_SIZE, stdin) == NULL);
     ret = sscanf(*buffer, "%s", *buffer);
   } while (ret != 1);
-  return 0;
+  return err;
 }

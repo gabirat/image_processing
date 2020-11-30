@@ -2,8 +2,10 @@
 #define HELPERS_H
 
 #include <stdio.h>
+#include "pgm.h"
+#include "errors.h"
 
 int get_input_int();
-int get_input_string(char** buffer);
+error_status get_input_string(char** buffer);
 
 #endif /* HELPERS_H */
