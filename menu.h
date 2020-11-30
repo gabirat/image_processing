@@ -8,7 +8,7 @@ typedef struct main_ctx {
   int err_no;
   pgm* active_image;
   size_t images_size;
-  pgm* images;
+  pgm** images;
 } ctx;
 
 int add_image(ctx* context);
