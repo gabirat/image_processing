@@ -13,7 +13,10 @@ const char* SIGNALS_ERROR_CODES[] = {
   "Error writing file",
   "Can't allocate memory to load a string",
   "Can't allocate memory to initialize context",
-  "Can't reallocate memory for a new image"
+  "Can't reallocate memory for a new image",
+  "Can't reallocate memory after deleting",
+  "Input value out of range",
+  "No active image"
 };
 
 error_status inline init_error_status() {
