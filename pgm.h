@@ -8,6 +8,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "helpers.h"
+#include "errors.h"
 
 #define PGM_PATH_LENGTH 512
 
