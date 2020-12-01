@@ -18,7 +18,20 @@ error_status add_image(ctx* context) {
   error_status err = init_error_status();
   char* path = NULL;
   err = get_input_string(&path);
-  //TODO: Finish function
+  if (err.err_t != NO_ERROR) {
+    return err;
+  }
+  context->images = (pgm**)realloc(context->images, sizeof(pgm*) * (context->images_size + 1));
+  if (context->images == NULL) {
+    err.err_no = 13;
+    err.err_no = ERROR_CRITICAL;
+    return err;
+  }
+  err = load_pgm(path, context->images[context->images_size]);
+  if (err.err_t != NO_ERROR) {
+    return err;
+  }
+  context->images_size++;
   free(path);
   return err;
 }
