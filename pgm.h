@@ -21,17 +21,17 @@ typedef struct {
   int16_t* data;
 } pgm;
 
-typedef enum {
+typedef enum e_magic_status{
   MAGIC_WRONG,
   MAGIC_NOT_IMPLEMENTED,
   MAGIC_OK
 } magic_status;
 
-int load_pgm(char* path, pgm** image);
+error_status load_pgm(char* path, pgm** image);
 /* load_pgm checks only if magic is correct and assumes rest of the 
    file follows the specification */
 
-int save_pgm(char* path, pgm** image);
+error_status save_pgm(char* path, pgm** image);
 /* saves image to sepcified path*/
 
 void free_pgm(pgm* image);
