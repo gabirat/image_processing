@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 typedef enum e_err_t {
-    ERROR_CRITICAL,
+    ERROR_CRITICAL, //Such as malloc failure
     ERROR_NONCRITICAL,
     NO_ERROR
 } error_type;
