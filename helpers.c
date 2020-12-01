@@ -21,7 +21,7 @@ error_status get_input_string(char** buffer) {
     err.err_t = ERROR_CRITICAL;
   }
   int ret;
-    do {
+  do {
     while(fgets(*buffer, BUFFER_SIZE, stdin) == NULL);
     ret = sscanf(*buffer, "%s", *buffer);
   } while (ret != 1);
