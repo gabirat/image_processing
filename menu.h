@@ -14,9 +14,11 @@ typedef struct s_main_ctx {
 
 error_status init_ctx(ctx** context);
 error_status add_image(ctx* context);
-void delete_image(ctx* context);
+error_status delete_image(ctx* context);
+error_status choose_active_image(ctx* context);
+error_status save_image(ctx* context);
+error_status save_active_image(ctx* context);
 void show_images_list(ctx* context);
-void choose_active_image(ctx* context);
 
 void free_ctx(ctx* context);
 
