@@ -32,7 +32,7 @@ error_status load_pgm(char* path, pgm** image);
 /* load_pgm checks only if magic is correct and assumes rest of the 
    file follows the specification */
 
-error_status save_pgm(char* path, pgm** image);
+error_status save_pgm(char* path, pgm* image);
 /* saves image to sepcified path*/
 
 void free_pgm(pgm* image);

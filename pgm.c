@@ -57,7 +57,7 @@ error_status parse_string_as_pgm(char *content, pgm *image) {
 
 error_status load_pgm(char *path, pgm **image) {
   error_status err = init_error_status();
-  FILE *f = fopen(path, "r");
+  FILE *f = fopen(path, "rb");
   if (f == NULL) {
     err.err_no = 4;
     err.err_t = ERROR_NONCRITICAL;
@@ -110,9 +110,8 @@ error_status load_pgm(char *path, pgm **image) {
   return err;
 }
 
-error_status save_pgm(char* path, pgm** image) {
+error_status save_pgm(char* path, pgm* image) {
   error_status err = init_error_status();
-  pgm* img = (*image);
   int ret;
   if (image == NULL) {
     err.err_no = 8;
@@ -126,27 +125,27 @@ error_status save_pgm(char* path, pgm** image) {
     return err;
   }
 
-  ret = fprintf(f, "%s\n%ld %ld\n%d\n", img->magic, img->w, img->h, img->depth);
+  ret = fprintf(f, "%s\n%ld %ld\n%d\n", image->magic, image->w, image->h, image->depth);
   if (ret < 0) {
     err.err_no = 10;
     err.err_t = ERROR_NONCRITICAL;
-    close(f);
+    fclose(f);
     return err;
   }
   
-  for (size_t y = 0; y < img->h; y++) {
-    for (size_t x = 0; x < img->w; x++) {
-      if (fprintf(f, "%d ", img->data[img->w * y + x]) < 0) {
+  for (size_t y = 0; y < image->h; y++) {
+    for (size_t x = 0; x < image->w; x++) {
+      if (fprintf(f, "%d ", image->data[image->w * y + x]) < 0) {
         err.err_no = 10;
         err.err_t = ERROR_NONCRITICAL;
-        close(f);
+        fclose(f);
         return err;
       }
     }
     if (fprintf(f, "%c", '\n') < 0) {
       err.err_no = 10;
       err.err_t = ERROR_NONCRITICAL;
-      close(f);
+      fclose(f);
       return err;
     }
   }
