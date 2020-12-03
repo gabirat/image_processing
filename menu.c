@@ -16,7 +16,7 @@ error_status init_ctx(ctx** context) {
 
 error_status check_image_index(ctx* context, int idx) {
   error_status err = init_error_status();
-  if (idx < 0 || idx >= context->images_size) {
+  if (idx < 0 || (size_t)idx >= context->images_size) {
     err.err_no = 15;
     err.err_t = ERROR_NONCRITICAL;
     return err;
@@ -38,7 +38,7 @@ error_status add_image(ctx* context) {
     err.err_no = ERROR_CRITICAL;
     return err;
   }
-  err = load_pgm(path, context->images[context->images_size]);
+  err = load_pgm(path, &context->images[context->images_size]);
   if (err.err_t != NO_ERROR) {
     return err;
   }
@@ -51,7 +51,7 @@ error_status delete_image(ctx* context) {
   error_status err = init_error_status();
   printf("Podaj numer obrazu to usuniecia: ");
   int to_del = get_input_int();
-  err = check_image_index(to_del - 1, context);
+  err = check_image_index(context, to_del - 1);
   if (err.err_t != NO_ERROR) return err;
   if (context->images[to_del - 1] == context->active_image) {
     context->active_image = NULL;
@@ -85,7 +85,7 @@ error_status choose_active_image(ctx* context) {
   error_status err = init_error_status();
   printf("Jaki obraz ma byc aktywny?: ");
   int to_be_active = get_input_int();
-  err = check_image_index(to_be_active - 1, context);
+  err = check_image_index(context, to_be_active - 1);
   if (err.err_t != NO_ERROR) return err;
   context->active_image = context->images[to_be_active - 1];
   return err;
@@ -96,7 +96,7 @@ error_status save_image(ctx* context) {
   char* path = NULL;
   printf("Podaj numer obrazu zapisu: ");
   int to_save = get_input_int();
-  err = check_image_index(to_save - 1, context);
+  err = check_image_index(context, to_save - 1);
   if (err.err_t != NO_ERROR) return err;
   printf("Podaj sciezke do zapisu: ");
   err = get_input_string(&path);
