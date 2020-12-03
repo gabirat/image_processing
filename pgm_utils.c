@@ -144,8 +144,8 @@ error_status pgm_median_filter(size_t window_size, pgm* image) {
     err.err_t = ERROR_NONCRITICAL;
   }
   filter_window* window =  malloc(sizeof(*window));
-    if (window == NULL) {
-    err.err_no = 22;
+  if (window == NULL) {
+    err.err_no = 23;
     err.err_t = ERROR_CRITICAL;
   }
   window->size = window_size;
@@ -156,7 +156,9 @@ error_status pgm_median_filter(size_t window_size, pgm* image) {
     for (size_t y = 0; y < image->h; y++) {
       for (size_t x_w = 0; x_w < window->size; x_w++) {
         for (size_t y_w = 0; y_w < window->size; y_w++) {
-          set_window_pixel(window, x_w, y_w, get_pixel(((x - window->size/2) + x_w), ((y - window->size)+ y_w), image));
+          set_window_pixel(window, x_w, y_w,
+                           get_pixel(((x - window->size/2) + x_w),
+                                     ((y - window->size/2) + y_w), image));
         }
       }
       set_pixel(x, y, filter_median(window), image);
