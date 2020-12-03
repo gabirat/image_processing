@@ -16,10 +16,17 @@ const char* SIGNALS_ERROR_CODES[] = {
   "Can't reallocate memory for a new image",
   "Can't reallocate memory after deleting",
   "Input value out of range",
-  "No active image"
+  "No active image",
+  "Can't allocate memory to rotate",
+  "Can't allocate memory for histogram",
+  "Can't open histogram file for writing",
+  "Error writing histogram file",
+  "Window size has to be an odd number",
+  "Window size is too small",
+  "Can't allocate memory for filter window",
 };
 
-error_status inline init_error_status() {
+error_status init_error_status() {
   error_status err;
   err.err_no = 0;
   err.err_t = NO_ERROR;

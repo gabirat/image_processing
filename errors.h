@@ -14,7 +14,7 @@ typedef struct s_err_status {
     int err_no;
 } error_status;
 
-error_status inline init_error_status();
+error_status init_error_status();
 void print_error_message(int error_code);
 
 #endif /* ERRORS_H */
