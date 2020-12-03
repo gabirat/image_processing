@@ -7,8 +7,8 @@ CFLAGS = -std=c99 -Wall -Werror -Wextra
 #
 # Project files
 #
-SRCS = main.c pgm.c errors.c menu.c helpers.c
-DEPS = 		  pgm.h errors.h menu.h helpers.h
+SRCS = main.c pgm.c errors.c menu.c helpers.c pgm_utils.c
+DEPS = 		  pgm.h errors.h menu.h helpers.h pgm_utils.h
 LIBS = -lm
 OBJS = $(SRCS:.c=.o)
 EXE  = start
