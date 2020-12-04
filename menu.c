@@ -91,11 +91,7 @@ error_status delete_active_image(ctx* context) {
   return err;
 }
 
-error_status menu_loop(ctx* context) {
-
-}
-
-void show_images_list(ctx* context) {
+void display_images_list(ctx* context) {
   if (context->images_size == 0) {
     printf("Nie wczytano jeszczse zadnego pliku");
     return;
@@ -188,4 +184,10 @@ void free_ctx(ctx* context) {
   }
   free(context->images);
   free(context);
+}
+
+error_status menu_loop(ctx* context) {
+  while (/* condition */) {
+    /* code */
+  }
 }
