@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include "pgm.h"
 #include "errors.h"
+#define clrscr() printf("\e[1;1H\e[2J")
 
 int get_input_int();
 error_status get_input_string(char** buffer);
-void poormans_clear();
 
 #endif /* HELPERS_H */
