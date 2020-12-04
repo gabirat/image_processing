@@ -27,3 +27,7 @@ error_status get_input_string(char** buffer) {
   } while (ret != 1);
   return err;
 }
+
+void poormans_clear() {
+  for (size_t i = 0; i < 64; i++) printf("\n");
+}
