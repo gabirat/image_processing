@@ -20,6 +20,7 @@ error_status save_image(ctx* context);
 error_status save_active_image(ctx* context);
 void show_images_list(ctx* context);
 void display_menu(ctx* context);
+void display_edit_menu(ctx* context);
 void free_ctx(ctx* context);
 
 #endif /* MENU_H */

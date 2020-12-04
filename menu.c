@@ -128,12 +128,25 @@ error_status save_active_image(ctx* context) {
 
 void display_menu(ctx* context) {
   const char* menu_string =
-    "Przetwarzanie obrazow v1.0"
     "1. Wczytaj obraz\n"
     "2. Usun obraz\n"
     "3. Wyswietl wczytane obrazy\n"
     "4. Zamien aktywny obraz\n"
     "5. Edytuj aktywny obraz\n"
+    "6. Wyjdz\n"
+    "\nObecnie aktywny obraz: %s\n";
+  char* active_path = (context->active_image != NULL) ? context->active_image->path : "Nie wybrano";
+  printf(menu_string, active_path);
+}
+
+void display_edit_menu(ctx* context) {
+  const char* menu_string =
+    "1. Obrot o 90*k stopni\n"
+    "2. Zapisz histogram jako .csv\n"
+    "3. Negatyw\n"
+    "4. Zaszum\n"
+    "5. Odszum filtrem medianowym\n"
+    "6. Cofnij\n"
     "\nObecnie aktywny obraz: %s\n";
   char* active_path = (context->active_image != NULL) ? context->active_image->path : "Nie wybrano";
   printf(menu_string, active_path);
