@@ -126,6 +126,19 @@ error_status save_active_image(ctx* context) {
   return err;
 }
 
+void display_menu(ctx* context) {
+  const char* menu_string =
+    "Przetwarzanie obrazow v1.0"
+    "1. Wczytaj obraz\n"
+    "2. Usun obraz\n"
+    "3. Wyswietl wczytane obrazy\n"
+    "4. Zamien aktywny obraz\n"
+    "5. Edytuj aktywny obraz\n"
+    "\nObecnie aktywny obraz: %s\n";
+  char* active_path = (context->active_image != NULL) ? context->active_image->path : "Nie wybrano";
+  printf(menu_string, active_path);
+}
+
 void free_ctx(ctx* context) {
   if (context->images != NULL) {
       for (size_t i = 0; i < context->images_size; i++) {
