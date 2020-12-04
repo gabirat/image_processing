@@ -32,7 +32,8 @@ error_status add_image(ctx* context) {
   if (err.err_t != NO_ERROR) {
     return err;
   }
-  context->images = (pgm**)realloc(context->images, sizeof(pgm*) * (context->images_size + 1));
+  context->images = (pgm**)realloc(context->images, 
+                                   sizeof(pgm*) * (context->images_size + 1));
   if (context->images == NULL) {
     err.err_no = 13;
     err.err_no = ERROR_CRITICAL;
@@ -43,6 +44,7 @@ error_status add_image(ctx* context) {
     return err;
   }
   context->images_size++;
+  context->active_image = context->images[context->images_size - 1];
   free(path);
   return err;
 }
@@ -50,7 +52,7 @@ error_status add_image(ctx* context) {
 error_status delete_image(ctx* context) {
   error_status err = init_error_status();
   printf("Podaj numer obrazu to usuniecia: ");
-  int to_del = get_input_int();
+  int to_del = get_input_int(); //Index of image + 1
   err = check_image_index(context, to_del - 1);
   if (err.err_t != NO_ERROR) return err;
   if (context->images[to_del - 1] == context->active_image) {
@@ -60,13 +62,37 @@ error_status delete_image(ctx* context) {
   memmove(context->images[to_del - 1], 
           context->images[to_del],
          (context->images_size - to_del) * sizeof(pgm*));
-  context->images = realloc(context->images, (context->images_size - 1) * sizeof(pgm*));
+  context->images = realloc(context->images, 
+                           (context->images_size - 1) * sizeof(pgm*));
   if (context->images == NULL) {
     err.err_no = 14;
     err.err_t = ERROR_CRITICAL;
     return err;
   }
   return err;
+}
+
+error_status delete_active_image(ctx* context) {
+  error_status err = init_error_status();
+  int to_del = 0; //Actual index of the image
+  while(context->images[to_del] != context->active_image) to_del++; //Get index of active img
+  context->active_image = NULL;
+  free_pgm(context->images[to_del]);
+  memmove(context->images[to_del], 
+          context->images[to_del + 1],
+         (context->images_size - to_del) * sizeof(pgm*));
+  context->images = realloc(context->images, 
+                           (context->images_size - 1) * sizeof(pgm*));
+  if (context->images == NULL) {
+    err.err_no = 14;
+    err.err_t = ERROR_CRITICAL;
+    return err;
+  }
+  return err;
+}
+
+error_status menu_loop(ctx* context) {
+
 }
 
 void show_images_list(ctx* context) {
@@ -78,7 +104,6 @@ void show_images_list(ctx* context) {
   for (size_t i = 0; i < context->images_size; i++) {
     printf("[%ld] %s\n", i, context->images[i]->path);
   }
-  
 }
 
 error_status choose_active_image(ctx* context) {
@@ -130,10 +155,13 @@ void display_menu(ctx* context) {
   const char* menu_string =
     "1. Wczytaj obraz\n"
     "2. Usun obraz\n"
-    "3. Wyswietl wczytane obrazy\n"
-    "4. Zamien aktywny obraz\n"
-    "5. Edytuj aktywny obraz\n"
-    "6. Wyjdz\n"
+    "3. Usun aktywny obraz\n"
+    "4. Zapisz obraz z bazy\n"
+    "5. Zapisz aktywny obraz\n"
+    "6. Wyswietl wczytane obrazy\n"
+    "7. Wybierz aktywny obraz\n"
+    "8. Edytuj aktywny obraz\n"
+    "9. Wyjdz\n"
     "\nObecnie aktywny obraz: %s\n";
   char* active_path = (context->active_image != NULL) ? context->active_image->path : "Nie wybrano";
   printf(menu_string, active_path);
