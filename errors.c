@@ -24,6 +24,8 @@ const char* SIGNALS_ERROR_CODES[] = {
   "Window size has to be an odd number",
   "Window size is too small",
   "Can't allocate memory for filter window",
+  "No active image to delete",
+  "Database is empty",
 };
 
 error_status init_error_status() {
@@ -34,5 +36,5 @@ error_status init_error_status() {
 }
 
 void print_error_message(int error_code) {
-  fprintf(stderr, "Error code: %d\nMessage: %s\n", error_code, SIGNALS_ERROR_CODES[error_code - 1]);
+  fprintf(stderr, "\nError code: %d\nMessage: %s\n\n", error_code, SIGNALS_ERROR_CODES[error_code - 1]);
 }
