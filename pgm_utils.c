@@ -18,6 +18,7 @@ void set_pixel(int x, int y, int16_t value, pgm* image) {
 error_status pgm_rotate(int k_90_deg, pgm* image) {
   error_status err = init_error_status();
   k_90_deg %= 4;
+  k_90_deg = (k_90_deg < 0) ? 4 + k_90_deg : k_90_deg;
   int16_t* new_data;
   int tmp = 0;
   switch (k_90_deg) {
@@ -81,13 +82,13 @@ error_status pgm_rotate(int k_90_deg, pgm* image) {
 
 error_status pgm_save_histogram_as_csv(char* path, pgm* image) {
   error_status err = init_error_status();
-  int16_t* histogram = malloc(image->depth * sizeof(*histogram));
+  int16_t* histogram = malloc((image->depth + 1) * sizeof(*histogram));
   if (histogram == NULL) {
     err.err_no = 18;
     err.err_t = ERROR_CRITICAL;
     return err;
   }
-  memset(histogram, 0, image->depth * sizeof(*histogram)); //It's ok for zeroing int arrays
+  memset(histogram, 0, (image->depth + 1) * sizeof(*histogram)); //It's ok for zeroing int arrays
   for (size_t i = 0; i < image->data_size; i++) {
     histogram[image->data[i]] += 1;
   } 
@@ -95,12 +96,14 @@ error_status pgm_save_histogram_as_csv(char* path, pgm* image) {
   if (f == NULL) {
     err.err_no = 19;
     err.err_t = ERROR_NONCRITICAL;
+    free(histogram);
     return err;
   }
-  for (size_t i = 0; i < (size_t)image->depth; i++) {
+  for (size_t i = 0; i < (size_t)image->depth + 1; i++) {
     if (fprintf(f, "%ld;%d\n", i, histogram[i]) < 0) {
       err.err_no = 20;
       err.err_t = ERROR_NONCRITICAL;
+      free(histogram);
       fclose(f);
       return err;
     }
@@ -116,9 +119,9 @@ void pgm_negate(pgm* image) {
 }
 
 int16_t filter_median(filter_window* window) {
-  float tmp = 0;
-  for (size_t i = 0; i < window->size - 1; i++) {
-    for (size_t j = 0; j < window->size - i - 1; j++) {
+  int16_t tmp = 0;
+  for (size_t i = 0; i < window->data_size - 1; i++) {
+    for (size_t j = 0; j < window->data_size - i - 1; j++) {
       if (window->data[j] > window->data[j+1]) {
         tmp = window->data[j];
         window->data[j] = window->data[j+1];
@@ -152,8 +155,8 @@ error_status pgm_median_filter(size_t window_size, pgm* image) {
   window->data_size = window->size * window->size;
   window->data = malloc(window->data_size * sizeof(*window->data));
 
-  for (size_t x = 0; x < image->w; x++) {
-    for (size_t y = 0; y < image->h; y++) {
+  for (size_t y = 0; y < image->h; y++) {
+    for (size_t x = 0; x < image->w; x++) {
       for (size_t x_w = 0; x_w < window->size; x_w++) {
         for (size_t y_w = 0; y_w < window->size; y_w++) {
           set_window_pixel(window, x_w, y_w,
@@ -164,6 +167,7 @@ error_status pgm_median_filter(size_t window_size, pgm* image) {
       set_pixel(x, y, filter_median(window), image);
     }
   }
+  free(window->data);
   free(window);
   return err;
 }
