@@ -1,8 +1,8 @@
 # Przetwarzanie obrazów
 Projekt na kurs programowania w C
 
-<p>Tym razem starałem się zrobić coś w miarę pancernego i zdatnego do użycia.
-UX raczej na delikatnie wyższym poziomie niż przy poprzednim projekcie.</p>
+Tym razem starałem się zrobić coś w miarę pancernego i zdatnego do użycia.
+UX raczej na delikatnie wyższym poziomie niż przy poprzednim projekcie.
 
 Funkcja ładująca `.pgm` sprawdza tylko czy magic się zgadza i przyjmuje, że reszta pliku będzie poprawna.
 
