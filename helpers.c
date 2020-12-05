@@ -13,6 +13,17 @@ int get_input_int() {
   return num;
 }
 
+float get_input_float() {
+  char buffer[BUFFER_SIZE];
+  float num;
+  int ret;
+  do {
+    while(fgets(buffer, BUFFER_SIZE, stdin) == NULL);
+    ret = sscanf(buffer, "%f", &num);
+  } while (ret != 1);
+  return num;
+}
+
 error_status get_input_string(char** buffer) {
   error_status err = init_error_status();
   *buffer = malloc(BUFFER_SIZE * sizeof(*buffer));
